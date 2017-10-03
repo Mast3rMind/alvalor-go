@@ -17,12 +17,7 @@
 
 package mining
 
-import "github.com/alvalor/alvalor-go/transaction"
-
 // Block represents a set of validated transactions to be applied to the consensus state.
 type Block struct {
 	Header
-	Transactions []transaction.Action
-	Signatures   []transaction.Signature
-	Fees         []transaction.Fee
 }

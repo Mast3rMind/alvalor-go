@@ -26,25 +26,37 @@ import (
 
 // Header represents the header of a block.
 type Header struct {
-	Timestamp time.Time // timestamp when the block was mined
-	State     []byte    // patricia merkle tree root hash of current state
-	Delta     []byte    // patricia merkle tree root hash of transactions
-	Previous  []byte    // hash / ID of the previous block
-	Creator   []byte    // account of the creator of the block (for reward)
-	Nonce     uint64    // nonce to modify the hash and comform to difficulty
+	Number     uint64    // block number / height of the block
+	Nonce      uint64    // nonce to modify the hash and comform to difficulty
+	Timestamp  time.Time // timestamp when the block was mined
+	Previous   []byte    // hash / ID of the previous block
+	Difficulty []byte    // target mining difficulty for block
+	Creator    []byte    // account of the creator of the block (for reward)
+	Data       []byte    // extra data that can be added to the block
+	State      []byte    // patricia merkle tree root hash of account states
+	Delta      []byte    // patricia merkle tree root hash of transactions
+	Uncles     []byte    // patricia merkle tree root hash of uncles
 }
 
 // ID returns the ID of this block / header.
 func (hdr Header) ID() []byte {
 	h, _ := blake2b.New256(nil)
-	ts, _ := hdr.Timestamp.MarshalBinary()
-	h.Write(ts)
-	h.Write(hdr.State)
-	h.Write(hdr.Delta)
-	h.Write(hdr.Previous)
-	h.Write(hdr.Creator)
+
 	buf := make([]byte, 8)
+	binary.LittleEndian.PutUint64(buf, hdr.Number)
+	h.Write(buf)
 	binary.LittleEndian.PutUint64(buf, hdr.Nonce)
 	h.Write(buf)
+	ts, _ := hdr.Timestamp.MarshalBinary()
+	h.Write(ts)
+
+	h.Write(hdr.Previous)
+	h.Write(hdr.Difficulty)
+	h.Write(hdr.Creator)
+	h.Write(hdr.Data)
+	h.Write(hdr.State)
+	h.Write(hdr.Delta)
+	h.Write(hdr.Uncles)
+
 	return h.Sum(nil)
 }
