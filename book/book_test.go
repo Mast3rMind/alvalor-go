@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with Alvalor.  If not, see <http://www.gnu.org/licenses/>.
 
-package network
+package book
 
 import (
 	"fmt"
@@ -141,7 +141,7 @@ func TestOrderedSampleLimitsByParam(t *testing.T) {
 
 	entries, _ := book.Sample(sampleSize, IsActive(false), ByPrioritySort())
 
-	assert.Len(t, entries, sampleSize);
+	assert.Len(t, entries, sampleSize)
 }
 
 func TestRandomSampleReturnsErrorIfNoPeersAdded(t *testing.T) {
@@ -197,7 +197,7 @@ func TestRandomSampleLimitsByParam(t *testing.T) {
 
 	entries, _ := book.Sample(count, Any(), RandomSort())
 
-	assert.Len(t, entries, count);
+	assert.Len(t, entries, count)
 }
 
 func randomAddr() string {

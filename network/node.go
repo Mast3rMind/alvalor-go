@@ -81,7 +81,7 @@ func NewNode(options ...func(*Config)) *Node {
 		discovery:  time.NewTicker(cfg.discovery),
 		peers:      &registry{peers: make(map[string]*peer)},
 	}
-	node.book.Blacklist(cfg.address)
+	node.book.Action(cfg.address, ActionBlacklist)
 	if cfg.server {
 		go node.listen()
 	}

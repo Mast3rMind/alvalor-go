@@ -26,7 +26,7 @@ import (
 // DefaultConfig represents the default configuration of a node.
 var DefaultConfig = Config{
 	log:        DefaultLogger,
-	book:       DefaultBook,
+	book:       book.Default,
 	codec:      DefaultCodec,
 	subscriber: nil,
 	network:    Odin,
